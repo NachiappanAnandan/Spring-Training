@@ -54,6 +54,9 @@ public class BankingService implements BankingServiceInterface{
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public void credit(int id, int amount) throws UserUnavailableException {
 		Optional<BankDTO> dto = dao.findById(Integer.valueOf(id));
+		if(amount<=0) {
+			throw new UserUnavailableException("Enter a valid Amount");
+		}
 		if(!dto.isPresent()) {
 			throw new UserUnavailableException("User id of "+ id+" Not found");
 		}
@@ -74,6 +77,9 @@ public class BankingService implements BankingServiceInterface{
 	@Transactional(propagation = Propagation.SUPPORTS , rollbackFor = {InsufficientBalance.class})
 	public void debit(int id, int amount) throws InsufficientBalance, UserUnavailableException {
 		Optional<BankDTO> dto = dao.findById(Integer.valueOf(id));
+		if(amount<=0) {
+			throw new UserUnavailableException("Enter a valid Amount");
+		}
 		if(!dto.isPresent()) {
 			throw new UserUnavailableException("User id of "+ id+" Not found");
 		}
