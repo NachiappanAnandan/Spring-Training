@@ -1,18 +1,17 @@
-package com.example.service;
+package com.example.demo.service;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.exception.InsufficientBalance;
-import com.example.exception.UserFoundException;
-import com.example.exception.UserUnavailableException;
-import com.example.model.BankDAO;
-import com.example.model.BankDTO;
+import com.example.demo.exception.InsufficientBalanceException;
+import com.example.demo.exception.UserFoundException;
+import com.example.demo.exception.UserUnavailableException;
+import com.example.demo.model.BankDAO;
+import com.example.demo.model.BankDTO;
 
 
 /**
@@ -70,12 +69,12 @@ public class BankingService implements BankingServiceInterface{
 	 * 
 	 * @param id
 	 * @param amount
-	 * @throws InsufficientBalance
+	 * @throws InsufficientBalanceException
 	 * @throws NoSuchElementException
 	 */
 	@Override
-	@Transactional(propagation = Propagation.SUPPORTS , rollbackFor = {InsufficientBalance.class})
-	public void debit(int id, int amount) throws InsufficientBalance, UserUnavailableException {
+	@Transactional(propagation = Propagation.SUPPORTS , rollbackFor = {InsufficientBalanceException.class})
+	public void debit(int id, int amount) throws InsufficientBalanceException, UserUnavailableException {
 		Optional<BankDTO> dto = dao.findById(Integer.valueOf(id));
 		if(amount<=0) {
 			throw new UserUnavailableException("Enter a valid Amount");
@@ -85,7 +84,7 @@ public class BankingService implements BankingServiceInterface{
 		}
 		BankDTO user = dto.get();
 		if(amount> user.getAmount()) {
-			throw new InsufficientBalance("There is insufficent balance in your account");
+			throw new InsufficientBalanceException("There is insufficent balance in your account");
 		}
 		user.setAmount(user.getAmount()-amount);
 		dao.save(user);

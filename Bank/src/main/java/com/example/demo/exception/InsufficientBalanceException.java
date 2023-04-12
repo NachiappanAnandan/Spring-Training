@@ -1,4 +1,4 @@
-package com.example.exception;
+package com.example.demo.exception;
 
 
 /**
@@ -6,10 +6,10 @@ package com.example.exception;
  * @author Nachiappan
  *
  */
-public class InsufficientBalance extends Exception {
+public class InsufficientBalanceException extends Exception {
 	private String msg;
 	
-	public InsufficientBalance(String msg) {
+	public InsufficientBalanceException(String msg) {
 		this.msg=msg;
 	}
 	

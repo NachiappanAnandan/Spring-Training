@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.controller;
 
 
 import java.util.NoSuchElementException;
@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import com.example.exception.InsufficientBalance;
-import com.example.exception.UserUnavailableException;
-import com.example.model.BankDTO;
-import com.example.model.TranssactionData;
-import com.example.service.BankingService;
-import com.example.service.TransactionService;
+
+import com.example.demo.model.BankDTO;
+import com.example.demo.model.TranssactionData;
+import com.example.demo.service.BankingService;
+import com.example.demo.service.TransactionService;
 
 /**
  * Bank Controller contains the functions to be executed for a bank transaction
@@ -109,10 +108,10 @@ public class BankController {
 	public ModelAndView CheckUser(BankDTO user , ModelAndView mv) {
 		
 		try {
-			BankDTO userdata = bs.findUser(user.getId());
-			mv.addObject("id", userdata.getId() );
-			mv.addObject("name", userdata.getName());
-			mv.addObject("amount", userdata.getAmount());
+			BankDTO userData = bs.findUser(user.getId());
+			mv.addObject("id", userData.getId() );
+			mv.addObject("name", userData.getName());
+			mv.addObject("amount", userData.getAmount());
 			mv.setViewName("User");
 		}
 		catch(NoSuchElementException e) {
